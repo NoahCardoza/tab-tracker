@@ -28,35 +28,32 @@
       <el-form-item>
         <el-button type="primary" @click="register">Register</el-button>
       </el-form-item>
-
     </el-form>
   </div>
 </template>
 
 <script>
 import Auth from '@/services/Authentication.js'
+import SaveCredentials from '@/services/SaveCredentials'
 
 export default {
   name: 'register',
   data () {
     return {
-      email: '',
-      password: '',
+      email: 'test@me.com',
+      password: '12345678',
       error: null
     }
   },
   methods: {
     register () {
-      Auth.register({
-        email: this.email,
-        password: this.password
-      })
-      .then(res => res.data)
-      .then(console.log)
-      .catch(({ response }) => {
-        this.error = response.data.error
-      }
-    )
+      SaveCredentials.call(
+        this,
+        Auth.register({
+          email: this.email,
+          password: this.password
+        })
+      )
     }
   }
 }

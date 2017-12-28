@@ -33,29 +33,27 @@
 </template>
 
 <script>
-import Auth from '@/services/Authentication.js'
+import Auth from '@/services/Authentication'
+import SaveCredentials from '@/services/SaveCredentials'
 
 export default {
   name: 'login',
   data () {
     return {
-      email: '',
-      password: '',
+      email: 'test@me.com',
+      password: '12345678',
       error: null
     }
   },
   methods: {
     login () {
-      Auth.login({
-        email: this.email,
-        password: this.password
-      })
-      .then(res => res.data)
-      .then(console.log)
-      .catch(({ response }) => {
-        this.error = response.data.error
-      }
-    )
+      SaveCredentials.call(
+        this,
+        Auth.login({
+          email: this.email,
+          password: this.password
+        })
+      )
     }
   }
 }

@@ -20,6 +20,7 @@ module.exports = {
         user: userJSON,
         token: signUser(userJSON)
       })
+      // console.log(req.body);
     } catch (e) {
       res.status(400).send({
         error: "Email in use."
@@ -32,7 +33,7 @@ module.exports = {
 
       const user = await User.findOne({
         where: {
-          email
+          email: email
         }
       })
 
@@ -42,7 +43,8 @@ module.exports = {
         })
       }
 
-      if (await user.comparePassword(password)){
+      // console.log("compareed:", await user.validatePassword(password))
+      if (! await user.comparePassword(password)){
         return res.status(403).send({
           error: "Invalid login credentials."
         })
@@ -54,6 +56,7 @@ module.exports = {
         token: signUser(userJSON)
       })
     } catch (e) {
+      console.error(e);
       res.status(500).send({
         error: "An error occured trying to login."
       })

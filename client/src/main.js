@@ -7,8 +7,12 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import locale from 'element-ui/lib/locale/lang/en'
+import { sync } from 'vuex-router-sync'
+import store from '@/store/store'
 
 Vue.use(Element, { locale })
+
+sync(store, router)
 
 Vue.config.productionTip = false
 
@@ -16,6 +20,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
