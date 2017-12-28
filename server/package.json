@@ -1,10 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "The backend.",
   "main": "index.js",
+  "repository": "https://github.com/NoahCardoza/tab-tracker",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
+    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js",
+    "lint-start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
     "lint": "./node_modules/.bin/eslint **/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,11 +14,17 @@
   "author": "Noah Cardoza <noahcardoza@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "joi": "^13.0.2",
+    "jsonwebtoken": "^8.1.0",
     "morgan": "^1.9.0",
-    "nodemon": "^1.14.3"
+    "nodemon": "^1.14.3",
+    "sequelize": "^4.28.6",
+    "sqlite3": "^3.1.13"
   },
   "devDependencies": {
     "eslint": "^4.14.0",

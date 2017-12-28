@@ -1,12 +1,12 @@
 <template>
-  <div class="register">
-    <h1>Register</h1>
+  <div class="login">
+    <h1>Login</h1>
     <h3 v-if="error" :style="{
         color: '#f04'
       }">
       {{error}}
     </h3>
-    <el-form validate class="hello">
+    <el-form validate>
       <el-form-item label="Email">
         <el-input
           autoComplete="email"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="Password">
         <el-input
-          autoComplete="new-password"
+          autoComplete="password"
           name="password"
           type="password"
           required
@@ -26,9 +26,8 @@
           <!-- pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" -->
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="register">Register</el-button>
+        <el-button type="primary" @click="login">Login</el-button>
       </el-form-item>
-
     </el-form>
   </div>
 </template>
@@ -37,7 +36,7 @@
 import Auth from '@/services/Authentication.js'
 
 export default {
-  name: 'register',
+  name: 'login',
   data () {
     return {
       email: '',
@@ -46,8 +45,8 @@ export default {
     }
   },
   methods: {
-    register () {
-      Auth.register({
+    login () {
+      Auth.login({
         email: this.email,
         password: this.password
       })
