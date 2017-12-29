@@ -14,10 +14,12 @@ module.exports = app => {
   )
 
   app.get('/songs',
-    SongsController.index
-  )
-
+    SongsController.index)
+  app.get('/songs/:id',
+    SongsController.get)
+  app.put('/songs/:id',
+    SongsController.update)
   app.post('/songs',
-    SongsController.post
-  )
+    SongsController.post)
+
 }

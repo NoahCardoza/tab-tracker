@@ -26,7 +26,7 @@
         <el-input placeholder=":Tabs" type="textarea" v-model="song.tabs"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-button @click="create" type="primary">Create</el-button>
+        <el-button @click="edit" type="primary">Create</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -76,13 +76,20 @@ export default {
       }
     }
   },
+  mounted () {
+    SongsServices.get(this.$store.state.route.params.id)
+      .then(res => {
+        this.song = res.data
+      })
+      .catch(console.error)
+  },
   methods: {
-    create () {
+    edit () {
       this.$refs.song.validate()
         .then(() => {
-          SongsServices.post(this.song)
-            .then(res =>
-              this.$router.push(`/songs/${res.data.id}`))
+          SongsServices.put(this.song)
+            .then(() =>
+              this.$router.go(-1))
         })
         .catch(console.error)
     }
@@ -91,5 +98,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+  .el-input, .el-textarea {
+    /* margin-bottom: 10px !important; */
+  }
 </style>
