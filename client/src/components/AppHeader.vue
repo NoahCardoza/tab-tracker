@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { verifyPage } from '@/router'
 
 export default {
   name: 'app-header',
@@ -25,12 +25,11 @@ export default {
       links: []
     }
   },
-  computed: mapState([ 'isLoggedIn' ]),
   watch: {
-    isLoggedIn: {
+    '$store.state.isLoggedIn': {
       immediate: true,
       handler () {
-        this.links = this.$router.options.routes.filter(route => !route.hidden && (route.openToAll || !(this.isLoggedIn ^ route.onlyWhenLoggedIn)))
+        this.links = this.$router.options.routes.filter(({ meta }) => meta.header && verifyPage(meta.viewableBy))
       }
     }
   }
