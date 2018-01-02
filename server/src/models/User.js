@@ -13,7 +13,7 @@ const hashPassword = (user, options) => {
 }
 
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define('user', {
+  const User = sequelize.define('user', {
     email: {
       type: DataTypes.STRING,
       unique: true
@@ -25,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
-  user.prototype.comparePassword = function (password){
+  User.prototype.comparePassword = function (password){
     return bcrypt.compare(password, this.password)
   }
 
-  return user
+  return User
 }

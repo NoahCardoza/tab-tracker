@@ -1,6 +1,13 @@
+var pipeP = require('pipep')
+
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
+
+const loginError = new Error({
+  status: 403,
+  message:'Invalid login credentials.'
+})
 
 const signUser = user =>
   jwt.sign(
@@ -9,57 +16,61 @@ const signUser = user =>
       expiresIn: 60 * 60 * 24 * 7 // One week
   })
 
+const toJSON = obj => obj.toJSON
+const getBody = obj => obj['body']
+
+const findUser = pipeP(
+  ({ email, password }) => ([
+    User.findOne({
+      where: {
+        email
+      }
+    }),
+    password
+  ]),
+  ([user, password]) => {
+    if (!user)
+      throw loginError
+    return [
+      user,
+      user.comparePassword(password)
+    ]
+  },
+  ([user, match]) => {
+    if (!match)
+      throw loginError
+    return user
+  }
+)
+
+const packageResponce = pipeP(
+  user => ({
+    user,
+    token: signUser(user)
+  })
+)
+
+const Register = pipeP(
+  getBody,
+  User.create.bind(User),
+  toJSON,
+  packageResponce
+)
+
+const Login = pipeP(
+  getBody,
+  findUser,
+  toJSON,
+  packageResponce
+)
 
 module.exports = {
-  async register (req, res) {
-    try {
-      const user = await User.create(req.body)
-
-      const userJSON = user.toJSON()
-      res.send({
-        user: userJSON,
-        token: signUser(userJSON)
-      })
-      // console.log(req.body);
-    } catch (e) {
-      res.status(400).send({
-        error: "Email in use."
-      })
-    }
+  register (req, res) {
+    Register(req).then(res.pass)
+    .catch("This Email in already in use.", 400)
   },
-  async login (req, res) {
-    try {
-      const { email, password } =  req.body
-
-      const user = await User.findOne({
-        where: {
-          email: email
-        }
-      })
-
-      if (!user){
-        return res.status(403).send({
-          error: "Invalid login credentials."
-        })
-      }
-
-      // console.log("compareed:", await user.validatePassword(password))
-      if (! await user.comparePassword(password)){
-        return res.status(403).send({
-          error: "Invalid login credentials."
-        })
-      }
-      // Valid User
-      const userJSON = user.toJSON()
-      res.send({
-        user: userJSON,
-        token: signUser(userJSON)
-      })
-    } catch (e) {
-      console.error(e);
-      res.status(500).send({
-        error: "An error occured trying to login."
-      })
-    }
+  login (req, res) {
+    Login(req).then(res.pass)
+    .catch(res.catch('An unknown error occured. Try again.', 403))
   }
 }

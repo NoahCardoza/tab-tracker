@@ -1,6 +1,7 @@
 const AuthController = require('./controllers/AuthenticationController')
 const SongsController = require('./controllers/SongsController');
 const BookmarksController = require('./controllers/BookmarksController');
+const HistoryController = require('./controllers/HistoryController');
 
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
 const IsAuthenticated = require('./policies/IsAuthenticated');
@@ -33,6 +34,9 @@ module.exports = app => {
     IsAuthenticated.hard,
     BookmarksController.create)
 
+  app.get('/history',
+    IsAuthenticated.hard,
+    HistoryController.index)
 
   // app.get('/isAuth',
   //   IsAuthenticated.hard,
