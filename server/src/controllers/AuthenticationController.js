@@ -1,20 +1,8 @@
-var pipeP = require('pipep')
-
+const pipeP = require('pipep')
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
-
-
-
-const loginError = {
-  status: 403,
-  message:'Invalid login credentials.'
-}
-
-const duplicateEmailError = {
-  status: 400,
-  message:'This Email in already in use.'
-}
+const { loginError, duplicateEmailError } = require('./Errors')
 
 const signUser = user =>
   jwt.sign(
@@ -75,11 +63,11 @@ const Login = pipeP(
 
 module.exports = {
   register (req, res) {
-    Register(req).then(res.pass)
+    Register(req).then(res.send)
     .catch(res.catch('An unknown error occured. Try again.', 403))
   },
   login (req, res) {
-    Login(req).then(res.pass)
+    Login(req).then(res.send)
     .catch(res.catch('An unknown error occured. Try again.', 403))
   }
 }

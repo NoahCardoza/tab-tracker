@@ -20,7 +20,7 @@ const retrieveSongs = pipeP(
 
 module.exports = {
   index (req, res) {
-    retrieveSongs(req).then(res.pass)
+    retrieveSongs(req).then(res.send)
       .catch(res.catch("There was an error fetching your history."))
   },
   log (req, res, next) {

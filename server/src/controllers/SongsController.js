@@ -11,7 +11,7 @@ module.exports = {
       : Song.findAll({
           limit: 10})
     )
-    .then(res.pass)
+    .then(res.send)
     .catch(res.catch("An error occured while fetching the songs."))
   },
   get (req, res) {
@@ -44,45 +44,7 @@ module.exports = {
   },
   post (req, res) {
     Song.create(req.body)
-    .then(res.pass)
-    .catch(res.catch("An error occured while creating the songs."))
+    .then(res.send)
+    .catch(res.catch("An error occured while creating the song."))
   }
 }
-
-
-
-
-//
-// get (req, res) {
-//   Song.findById(req.params.id)
-//   .then(song =>
-//     (req.user
-//     ? song.getBookmarks({
-//         where: {
-//           UserId: req.user.id}})
-//             .then(bookmarks => res.send({
-//               ...song.toJSON(),
-//               bookmarked: (bookmarks[0] ? bookmarks[0].id : false)
-//             }))
-//     : res.send(song)))
-//   .catch(res.catch("An error occured while fetching the song."))
-// },
-
-
-
-// async get (req, res) {
-//   let bookmarked = undefined
-//   try {
-//     const song = await Song.findById(req.params.id)
-//     if (req.user) {
-//       bookmarked = !!(await song.getBookmarks({
-//         where: {
-//           UserId: req.user.id
-//         }
-//       })).length
-//     }
-//     res.send({ ...song.toJSON(), bookmarked })
-//   } catch (e) {
-//     res.catch("An error occured while fetching the song.")(e)
-//   }
-// },

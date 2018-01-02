@@ -27,9 +27,9 @@ app.use((req, res, next) => {
   // Easy status
   res.ok = (status) => res.send({ status: status || 'ok' })
 
-  // Sort cut for: .then(data => res.send(data))
+  // Fixes: .then(res.send)
   // Scoping issues prevent: .then(res.send)
-  res.pass = data => res.send(data)
+  res.send = res.send.bind(res)
   next()
 })
 

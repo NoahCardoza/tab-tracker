@@ -8,7 +8,7 @@ module.exports = {
       ]
     })
       .then(bookmarks => Promise.all(bookmarks.map(bookmark => bookmark.getSong())))
-      .then(res.pass)
+      .then(res.send)
       .catch(res.catch("An error occured while accessing your bookmarks."))
   },
   create (req, res) {
