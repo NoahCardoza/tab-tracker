@@ -4,10 +4,17 @@ const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 
-const loginError = new Error({
+
+
+const loginError = {
   status: 403,
   message:'Invalid login credentials.'
-})
+}
+
+const duplicateEmailError = {
+  status: 400,
+  message:'This Email in already in use.'
+}
 
 const signUser = user =>
   jwt.sign(
@@ -16,7 +23,7 @@ const signUser = user =>
       expiresIn: 60 * 60 * 24 * 7 // One week
   })
 
-const toJSON = obj => obj.toJSON
+const toJSON = obj => obj.toJSON()
 const getBody = obj => obj['body']
 
 const findUser = pipeP(
@@ -43,16 +50,18 @@ const findUser = pipeP(
   }
 )
 
-const packageResponce = pipeP(
-  user => ({
-    user,
-    token: signUser(user)
-  })
-)
+// const packageResponce = pipeP(
+//
+// )
+
+const packageResponce = user => ({
+  user,
+  token: signUser(user)
+})
 
 const Register = pipeP(
   getBody,
-  User.create.bind(User),
+  user => User.create(user).catch(e => {throw duplicateEmailError}),
   toJSON,
   packageResponce
 )
@@ -67,7 +76,7 @@ const Login = pipeP(
 module.exports = {
   register (req, res) {
     Register(req).then(res.pass)
-    .catch("This Email in already in use.", 400)
+    .catch(res.catch('An unknown error occured. Try again.', 403))
   },
   login (req, res) {
     Login(req).then(res.pass)

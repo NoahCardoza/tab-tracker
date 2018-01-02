@@ -1,7 +1,5 @@
 const { Song, Bookmark } = require('../models')
 
-
-
 module.exports = {
   index (req, res) {
     (req.query.search

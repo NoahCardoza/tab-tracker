@@ -18,6 +18,7 @@ module.exports = app => {
     SongsController.index)
   app.get('/songs/:id',
     IsAuthenticated.soft,
+    HistoryController.log, // Loggs the song veiwed
     SongsController.get)
   app.put('/songs/:id',
     SongsController.update)

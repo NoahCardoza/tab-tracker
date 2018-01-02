@@ -1,8 +1,5 @@
 const { Bookmark } = require('../models')
 
-
-
-
 module.exports = {
   index (req, res) {
     req.user.getBookmarks({

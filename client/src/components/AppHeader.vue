@@ -9,12 +9,7 @@
     </el-col>
     <el-col class='long-col' style='float: right;' :span='22'>
       <el-menu style='border-bottom: none;' :default-active='$route.path' mode='horizontal' router>
-        <!-- class='menu hidden-sm-only' -->
-        <el-menu-item v-show='!isLoggedIn' index='/login'>Login</el-menu-item>
-        <el-menu-item v-show='!isLoggedIn' index='/register'>Register</el-menu-item>
-        <el-menu-item v-show='isLoggedIn' index='/songs'>Songs</el-menu-item>
-        <el-menu-item v-show='isLoggedIn' index='/bookmarks'>Bookmarks</el-menu-item>
-        <el-menu-item v-show='isLoggedIn' index='/' @click='logout'>Logout</el-menu-item>
+        <el-menu-item v-for="link in links" :key="link.path" :index='link.path'>{{link.name}}</el-menu-item>
       </el-menu>
     </el-col>
   </el-row>
@@ -25,15 +20,20 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'app-header',
-  methods: {
-    logout () {
-      this.$store.dispatch('setToken', null)
-      this.$store.dispatch('setUser', null)
+  data () {
+    return {
+      links: []
     }
   },
-  computed: mapState([
-    'isLoggedIn'
-  ])
+  computed: mapState([ 'isLoggedIn' ]),
+  watch: {
+    isLoggedIn: {
+      immediate: true,
+      handler () {
+        this.links = this.$router.options.routes.filter(route => !route.hidden && (route.openToAll || !(this.isLoggedIn ^ route.onlyWhenLoggedIn)))
+      }
+    }
+  }
 }
 </script>
 

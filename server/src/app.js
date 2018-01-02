@@ -14,12 +14,11 @@ app.use(cors())
 app.use((req, res, next) => {
   // Easy error handling
   res.catch = (message, status) => error => {
-
-    if (error.message.message){
-      console.error(error.message.message, error.message.status, error)
-      res.status(error.message.status || 500).send({ error: error.message.message })
+    if (error.message){
+      console.error("Thrown Error:", error.message, error.status)
+      res.status(error.status || 500).send({ error: error.message })
     } else {
-      console.error(message, error)
+      console.error("Unknown Error:", message, status, error)
       res.status(status || 500).send({ error: message })
     }
 
