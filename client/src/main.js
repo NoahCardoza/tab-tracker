@@ -9,10 +9,10 @@ import 'element-ui/lib/theme-chalk/display.css'
 import locale from 'element-ui/lib/locale/lang/en'
 import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
-import VueYouTubeEmbed from 'vue-youtube-embed'
+import { AsyncDataPlugin } from 'vue-async-data-2'
 
+Vue.use(AsyncDataPlugin)
 Vue.use(Element, { locale })
-Vue.use(VueYouTubeEmbed)
 
 sync(store, router)
 

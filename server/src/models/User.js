@@ -13,7 +13,7 @@ const hashPassword = (user, options) => {
 }
 
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define('User', {
+  const user = sequelize.define('user', {
     email: {
       type: DataTypes.STRING,
       unique: true
@@ -21,8 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {
     hooks: {
-      // beforeCreate: hashPassword,
-      // beforeUpdate: hashPassword,
       beforeSave: hashPassword,
     }
   })

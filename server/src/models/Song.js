@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const song = sequelize.define('Song', {
+  const song = sequelize.define('song', {
     title: DataTypes.STRING,
     artist: DataTypes.STRING,
     genre: DataTypes.STRING,

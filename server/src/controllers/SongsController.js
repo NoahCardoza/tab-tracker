@@ -1,50 +1,90 @@
-const { Song } = require('../models')
+const { Song, Bookmark } = require('../models')
+
+
 
 module.exports = {
-  async index (req, res) {
-    try {
-      const songs = await Song.findAll({
-        limit: 10
-      })
-      res.send(songs)
-    } catch (e) {
-      res.status(500).send({
-        error: "An error occured while fetching the songs."
-      })
-    }
+  index (req, res) {
+    (req.query.search
+      ? Song.findAll({
+          where: {
+            $or: ['title', 'artist', 'album', 'genre']
+              .map(key => ({
+                [key]: {$like: `${req.query.search}%%`}}))}})
+      : Song.findAll({
+          limit: 10})
+    )
+    .then(res.pass)
+    .catch(res.catch("An error occured while fetching the songs."))
   },
-  async get (req, res) {
-    try {
-      const song = await Song.findById(req.params.id)
-      res.send(song)
-    } catch (e) {
-      res.status(500).send({
-        error: "An error occured while fetching the song."
-      })
-    }
-  },
-  async update (req, res) {
-    try {
-      const song = await Song.update(req.body, {
+  get (req, res) {
+    Song.findById(req.params.id, {
+      include: [{
+        model: Bookmark,
+        as: 'bookmarks',
         where: {
-          id: req.body.id
-        }
-      })
-      res.send({status: 'ok'})
-    } catch (e) {
-      res.status(500).send({
-        error: "An error occured while updating the song."
-      })
-    }
+          UserId: (req.user || {}).id // If the users is logged in
+        },
+        required: false
+      }]
+    })
+    .then(song => res.send({
+      ...song.toJSON(),
+      bookmarked: !!song.bookmarks.length,
+      bookmarks: undefined
+    }))
+    .catch(res.catch("An error occured while fetching the song."))
   },
-  async post (req, res) {
-    try {
-      const song = await Song.create(req.body)
-      res.send(song.toJSON())
-    } catch (e) {
-      res.status(500).send({
-        error: "An error occured while creating the songs."
-      })
-    }
+  update (req, res) {
+    Song.update(req.body, {
+      where: {
+        id: req.body.id
+      }
+    })
+    .then(res.ok)
+    .catch(res.catch("An error occured while updating the song."))
+
+  },
+  post (req, res) {
+    Song.create(req.body)
+    .then(res.pass)
+    .catch(res.catch("An error occured while creating the songs."))
   }
 }
+
+
+
+
+//
+// get (req, res) {
+//   Song.findById(req.params.id)
+//   .then(song =>
+//     (req.user
+//     ? song.getBookmarks({
+//         where: {
+//           UserId: req.user.id}})
+//             .then(bookmarks => res.send({
+//               ...song.toJSON(),
+//               bookmarked: (bookmarks[0] ? bookmarks[0].id : false)
+//             }))
+//     : res.send(song)))
+//   .catch(res.catch("An error occured while fetching the song."))
+// },
+
+
+
+// async get (req, res) {
+//   let bookmarked = undefined
+//   try {
+//     const song = await Song.findById(req.params.id)
+//     if (req.user) {
+//       bookmarked = !!(await song.getBookmarks({
+//         where: {
+//           UserId: req.user.id
+//         }
+//       })).length
+//     }
+//     res.send({ ...song.toJSON(), bookmarked })
+//   } catch (e) {
+//     res.catch("An error occured while fetching the song.")(e)
+//   }
+// },

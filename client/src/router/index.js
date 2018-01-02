@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
-import Songs from '@/components/Songs'
+import ViewSongs from '@/components/ViewSongs'
 import CreateSong from '@/components/CreateSong'
 import ViewSong from '@/components/ViewSong'
+import ViewBookmarks from '@/components/ViewBookmarks'
 import EditSong from '@/components/EditSong'
+import Logout from '@/components/Logout'
 // import Test from '@/components/Test'
 
 Vue.use(Router)
@@ -14,39 +16,48 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
       path: '/register',
-      name: 'Register',
+      name: 'register',
       component: Register
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login
     },
     {
+      path: '/logout',
+      name: 'logout',
+      component: Logout
+    },
+    {
       path: '/songs',
-      name: 'Songs',
-      component: Songs
+      name: 'songs',
+      component: ViewSongs
     },
     {
       path: '/songs/create',
-      name: 'Create Song',
+      name: 'create-song',
       component: CreateSong
     },
     {
       path: '/songs/:id',
-      name: 'Song',
+      name: 'song',
       component: ViewSong
     },
     {
       path: '/songs/:id/edit',
-      name: 'Edit Song',
+      name: 'edit-song',
       component: EditSong
+    },
+    {
+      path: '/bookmarks',
+      name: 'bookmarks',
+      component: ViewBookmarks
+    },
+    {
+      path: '*',
+      redirect: '/songs'
     }
     // {
     //   path: '/test',

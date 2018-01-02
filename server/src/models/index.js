@@ -3,6 +3,7 @@ const path = require('path')
 const Sequelize = require('sequelize')
 const config = require('../config/config')
 
+const upcaseFirstChar = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
 const sequelize = new Sequelize(
   config.db.database,
@@ -21,7 +22,13 @@ fs.readdirSync(__dirname)
     file != 'index.js')
   .forEach(file => {
     const model = sequelize.import(path.join(__dirname, file))
-    db[model.name] = model
+    db[upcaseFirstChar(model.name)] = model // Makes names uppercase 
   })
+
+Object.keys(db).forEach(model => {
+  if (db[model].associate) {
+    db[model].associate(db)
+  }
+})
 
 module.exports = db

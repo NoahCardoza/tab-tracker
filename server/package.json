@@ -8,6 +8,7 @@
     "start": "./node_modules/nodemon/bin/nodemon.js src/app.js",
     "lint-start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
     "lint": "./node_modules/.bin/eslint **/*.js",
+    "seed": "node ./seed/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -23,6 +24,8 @@
     "jsonwebtoken": "^8.1.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.14.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1",
     "sequelize": "^4.28.6",
     "sqlite3": "^3.1.13"
   },

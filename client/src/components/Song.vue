@@ -1,17 +1,14 @@
 <template lang="html">
-  <!-- <router-link :to="{ name: '', params: {} }"></router-link> -->
-  <router-link :to="{ name: 'Song', params: {id: song.id} }">
-    <el-row class="song">
-      <el-col :span="6">
-        <img :src="song.albumImageUrl" :alt="song.album">
-      </el-col>
-      <el-col :span="18">
-        <div class="song-title">{{song.title}}</div>
-        <div class="song-album">{{song.album}}</div>
-        <div class="song-artist">{{song.artist}}</div>
-        <div class="song-genre">{{song.genre}}</div>
-      </el-col>
-    </el-row>
+  <router-link tag="div" class="song" :to="`/songs/${song.id}`">
+    <aside class="album-art">
+      <img :src="song.albumImageUrl" :alt="song.album">
+    </aside>
+    <div class="song-info">
+      <div class="song-title">{{song.title}}</div>
+      <div class="song-album">{{song.album}}</div>
+      <div class="song-artist">{{song.artist}}</div>
+      <div class="song-genre">{{song.genre}}</div>
+    </div>
   </router-link>
 </template>
 
@@ -27,6 +24,27 @@ export default {
     padding: 10px;
     overflow: hidden;
     height: 200px;
+    cursor: pointer;
+  }
+
+  .album-art {
+    float: left;
+    width: 200px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .song-info {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: calc(100% - 200px);
+    justify-content: center;
+  }
+
+  .song:hover {
+    background-color: #EEE;
   }
 
   .song-title {
@@ -42,15 +60,10 @@ export default {
   }
 
   .song-genre {
-
+    font-size: 12px;
   }
 
   img {
     max-width: 100%;
-    margin: 0 auto;
-  }
-
-  h3, h4, h5 {
-    margin: 4px;
   }
 </style>

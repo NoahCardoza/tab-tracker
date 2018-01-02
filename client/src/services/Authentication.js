@@ -1,8 +1,8 @@
-import Api from './Api'
+import API from './API'
 
 export default {
   register: credentials =>
-    Api.post('register', credentials),
+    API().post('register', credentials),
   login: credentials =>
-    Api.post('login', credentials)
+    API().post('login', credentials)
 }
