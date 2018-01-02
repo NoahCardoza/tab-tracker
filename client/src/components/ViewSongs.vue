@@ -39,6 +39,7 @@ export default {
     '$route.query.search': {
       immediate: true,
       handler: debounce(function (val) {
+        document.title = val ? `Search: ${val}` : 'Songs'
         this.search = val
         SongsServices.index(val)
           .then(res => {

@@ -44,7 +44,10 @@
     asyncData: {
       song () {
         return SongsServices.get(this.$store.state.route.params.id)
-          .then(res => res.data)
+          .then(res => {
+            document.title = `View: ${res.data.title}`
+            return res.data
+          })
           .catch(console.error)
       },
       songDefault: {}

@@ -9,7 +9,7 @@
     </el-col>
     <el-col class='long-col' style='float: right;' :span='22'>
       <el-menu style='border-bottom: none;' :default-active='$route.path' mode='horizontal' router>
-        <el-menu-item v-for="link in links" :key="link.path" :index='link.path'>{{link.name}}</el-menu-item>
+        <el-menu-item v-for="link in links" :key="link.path" :index='link.path'>{{link.meta.title}}</el-menu-item>
       </el-menu>
     </el-col>
   </el-row>

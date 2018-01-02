@@ -67,7 +67,10 @@ export default {
   asyncData: {
     song () {
       return SongsServices.get(this.$store.state.route.params.id)
-        .then(res => res.data)
+        .then(res => {
+            document.title = `Edit: ${res.data.title}`
+            return res.data
+          })
     },
     songDefault: {}
   },

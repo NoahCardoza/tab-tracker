@@ -21,78 +21,87 @@ export const viewTags = {
 export default [
   {
     path: '/songs',
-    name: 'Songs',
+    name: 'songs',
     component: ViewSongs,
     meta: {
+      title: 'Songs',
       header: true,
       viewableBy: EVERYONE
     }
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: Login,
     meta: {
+      title: 'Login',
       header: true,
       viewableBy: LOGGEDOUT
     }
   },
   {
     path: '/register',
-    name: 'Register',
+    name: 'register',
     component: Register,
     meta: {
+      title: 'Register',
       header: true,
       viewableBy: LOGGEDOUT
     }
   },
   {
     path: '/songs/create',
-    name: 'Create-song',
+    name: 'create-song',
     component: CreateSong,
     meta: {
+      title: 'Create Song',
       viewableBy: LOGGEDIN
     }
   },
   {
     path: '/songs/:id',
-    name: 'Song',
+    name: 'song',
     component: ViewSong,
     meta: {
+      title: 'View Song',
       viewableBy: EVERYONE
     }
   },
   {
     path: '/songs/:id/edit',
-    name: 'Edit-song',
+    name: 'edit-song',
     component: EditSong,
     meta: {
+      title: 'Edit Song',
       viewableBy: LOGGEDIN
     }
   },
   {
     path: '/bookmarks',
-    name: 'Bookmarks',
+    name: 'bookmarks',
     component: ViewBookmarks,
     meta: {
+      title: 'Bookmarks',
       header: true,
       viewableBy: LOGGEDIN
     }
   },
   {
     path: '/history',
-    name: 'History',
+    name: 'history',
     component: ViewHistory,
     meta: {
+      title: 'History',
       header: true,
       viewableBy: LOGGEDIN
     }
   },
   {
     path: '/logout',
-    name: 'Logout',
+    name: 'logout',
     component: Logout,
     meta: {
+      title: 'Logout',
       header: true,
       viewableBy: LOGGEDIN
     }
@@ -101,6 +110,7 @@ export default [
     path: '*',
     redirect: '/songs',
     meta: {
+      title: '',
       viewableBy: EVERYONE
     }
   }

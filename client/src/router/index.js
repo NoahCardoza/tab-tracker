@@ -15,12 +15,14 @@ Vue.use(Router)
 
 const router = new Router({ routes: Routes })
 
-router.beforeEach((to, from, next) =>
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
   next(verifyPage(to.meta.viewableBy, store.state.isLoggedIn)
   ? undefined
   : (store.state.isLoggedIn
     ? '/songs'
-    : '/login')))
+    : '/login'))
+})
 
 export default router
 
